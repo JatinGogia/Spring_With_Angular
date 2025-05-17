@@ -8,8 +8,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.ResponseBody;
+
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.projects.project1.dtos.documents.Student;
 import com.projects.project1.dtos.query.StudentQuery;
+import com.projects.project1.dtos.sqldb.dto.performanceDTO;
+import com.projects.project1.handler.PerformanceDTOSerializer;
 import com.projects.project1.repository.StudentRepository;
 import com.projects.project1.service.PerformanceService;
 
@@ -55,11 +60,24 @@ public class ProjectController {
     } 
 
 
-    @PostMapping(value = "/insertBulkData",produces = "application/json")
-    public ResponseEntity insertDataIntoSqlDb(@RequestBody Student student) 
-    {    performanceService.insertBulkData();
+    @GetMapping(value = "/insertBulkData",produces = "application/json")
+    public ResponseEntity insertDataIntoSqlDb() 
+    {    
+          //Uncomment the method to bulk insert the data
+         //performanceService.insertBulkData();
          return ResponseEntity.ok().build(); 
     } 
+
+
+
+    @GetMapping(value = "/fetchData",produces = "application/json")
+    @ResponseBody
+    @JsonSerialize(using = PerformanceDTOSerializer.class)
+    public List<performanceDTO> fetchDataFromDb() 
+    {    
+       return performanceService.fetchDataFromDb(); 
+    } 
+
 
 
 }
