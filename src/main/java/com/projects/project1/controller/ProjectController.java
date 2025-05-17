@@ -11,6 +11,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import com.projects.project1.dtos.documents.Student;
 import com.projects.project1.dtos.query.StudentQuery;
 import com.projects.project1.repository.StudentRepository;
+import com.projects.project1.service.PerformanceService;
+
 import io.micrometer.common.util.StringUtils; 
 
 @Controller
@@ -18,6 +20,9 @@ public class ProjectController {
 
     @Autowired
     StudentRepository studentRepository;
+
+    @Autowired
+    PerformanceService performanceService;
     
      
     @PostMapping(value = "/fetchInformation",produces = "application/json")
@@ -48,5 +53,13 @@ public class ProjectController {
     {    List<Student> students= studentRepository.findAll();
          return ResponseEntity.ok().body(students); 
     } 
+
+
+    @PostMapping(value = "/insertBulkData",produces = "application/json")
+    public ResponseEntity insertDataIntoSqlDb(@RequestBody Student student) 
+    {    performanceService.insertBulkData();
+         return ResponseEntity.ok().build(); 
+    } 
+
 
 }
