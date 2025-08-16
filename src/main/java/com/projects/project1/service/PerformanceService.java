@@ -1,19 +1,25 @@
 package com.projects.project1.service;
 
+
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.jdbc.core.BeanPropertyRowMapper;
 import org.springframework.jdbc.core.JdbcTemplate;
 import org.springframework.stereotype.Component;
+
+import com.projects.project1.codeFlowImageGenerationCode.TraceFlow;
 import com.projects.project1.dtos.sqldb.dto.performanceDTO;
+import com.projects.project1.handler.SqlDbHandler;
 
 @Component
 public class PerformanceService {
 
      @Autowired
     private JdbcTemplate jdbcTemplate;
+
+    @Autowired
+    SqlDbHandler sqlDbHandler;
 
     public void insertBulkData(){
             System.out.println("Starting bulk insert...");
@@ -53,17 +59,10 @@ public class PerformanceService {
         String[] data = {"alpha", "beta", "gamma", "delta", "omega", "theta", "lambda"};
         return data[ThreadLocalRandom.current().nextInt(data.length)];
     }
-
-
-    public List<performanceDTO> fetchDataFromDb(){
-        
-        try{
-             return jdbcTemplate.query("select * from perfotmanceTesting;",new BeanPropertyRowMapper<>(performanceDTO.class));
-        }
-        catch(Exception e){
-                System.out.println(e);
-        }
-        return null;
+    
+    @TraceFlow
+    public List<performanceDTO> fetchDataFromDb1(){
+        return  sqlDbHandler.fetchDataFromPerfotmanceTesting();
     }
 
 

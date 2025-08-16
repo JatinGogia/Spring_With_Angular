@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.projects.project1.codeFlowImageGenerationCode.TraceFlow;
 import com.projects.project1.dtos.documents.Student;
 import com.projects.project1.dtos.query.StudentQuery;
 import com.projects.project1.dtos.sqldb.dto.performanceDTO;
@@ -73,9 +74,10 @@ public class ProjectController {
     @GetMapping(value = "/fetchData",produces = "application/json")
     @ResponseBody
     @JsonSerialize(using = PerformanceDTOSerializer.class)
+    @TraceFlow
     public List<performanceDTO> fetchDataFromDb() 
     {    
-       return performanceService.fetchDataFromDb(); 
+       return performanceService.fetchDataFromDb1(); 
     } 
 
 
